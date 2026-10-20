@@ -43,9 +43,12 @@ export default function AdminQRCodes() {
 
   const [baseUrl, setBaseUrl] = useState(() => {
     try {
+      if (window.location.origin.includes("qr.katmerim.com") || window.location.origin.includes("vercel.app")) {
+        return "https://qr.katmerim.com";
+      }
       return window.location.origin;
     } catch {
-      return "http://localhost:5173";
+      return "https://qr.katmerim.com";
     }
   });
 
@@ -316,9 +319,34 @@ export default function AdminQRCodes() {
               type="text"
               value={baseUrl}
               onChange={(e) => setBaseUrl(e.target.value)}
-              placeholder="https://menu.katmerim.com"
+              placeholder="https://qr.katmerim.com"
               className="w-full px-3 py-2 bg-black/40 border border-white/10 rounded-xl text-xs text-white font-mono focus:outline-none focus:border-[#c9a34a]"
             />
+
+            <div className="flex items-center gap-1.5 pt-1">
+              <button
+                type="button"
+                onClick={() => setBaseUrl("https://qr.katmerim.com")}
+                className={`px-2.5 py-1 rounded-lg text-[10px] font-bold border transition ${
+                  baseUrl === "https://qr.katmerim.com"
+                    ? "bg-[#c9a34a] text-stone-950 border-amber-300"
+                    : "bg-[#c9a34a]/15 hover:bg-[#c9a34a]/25 text-[#e2c875] border-[#c9a34a]/30"
+                }`}
+              >
+                ✦ qr.katmerim.com
+              </button>
+              <button
+                type="button"
+                onClick={() => setBaseUrl("https://katmerim-qr.vercel.app")}
+                className={`px-2.5 py-1 rounded-lg text-[10px] font-medium border transition ${
+                  baseUrl === "https://katmerim-qr.vercel.app"
+                    ? "bg-white/20 text-white border-white/30"
+                    : "bg-white/5 hover:bg-white/10 text-gray-300 border-white/5"
+                }`}
+              >
+                katmerim-qr.vercel.app
+              </button>
+            </div>
 
             <div className="pt-2 text-[11px] text-gray-400 space-y-1">
               <span className="font-semibold text-gray-300 block">Seçili Masa Hedef URL'si:</span>
